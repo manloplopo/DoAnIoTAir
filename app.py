@@ -80,7 +80,16 @@ if not df.empty:
     
     # --- PHẦN 1: THÔNG SỐ REALTIME ---
     st.subheader("⏱️ Thông số hiện tại")
+
+    # Lấy thêm trạng thái thiết bị
+    device_on = last_row.get('deviceOn', True) # Mặc định là True nếu không có dữ liệu
     
+    # Hiển thị trạng thái máy
+    if device_on:
+        st.success("✅ THIẾT BỊ ĐANG HOẠT ĐỘNG")
+    else:
+        st.error("🛑 THIẾT BỊ ĐANG TẮT (Dữ liệu có thể cũ)")
+
     m1, m2, m3, m4 = st.columns(4)
     
     temp = float(last_row.get('temp', 0))
@@ -188,3 +197,4 @@ else:
     st.info("Đang chờ dữ liệu từ thiết bị ESP32... Vui lòng đợi trong giây lát.")
     time.sleep(2)
     st.rerun()
+
