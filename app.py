@@ -8,7 +8,7 @@ import json
 # --- 1. KẾT NỐI FIREBASE (AN TOÀN) ---
 if not firebase_admin._apps:
     # Lấy cấu hình từ Streamlit Secrets
-    key_dict = json.loads(st.secrets["textkey"])
+    key_dict = dict(st.secrets["firebase"])
     cred = credentials.Certificate(key_dict)
     
     # Kết nối với URL Database của bạn
@@ -74,4 +74,5 @@ if not df.empty:
         st.dataframe(df.sort_index(ascending=False)) # Mới nhất lên đầu
 
 else:
+
     st.info("Chưa có dữ liệu trên Firebase hoặc đang tải...")
