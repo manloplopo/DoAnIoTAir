@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, db
 import pandas as pd
@@ -62,9 +62,13 @@ if not df.empty:
     st.subheader("📉 Biểu đồ diễn biến")
     
     # Chuyển đổi index thành cột thời gian nếu cần thiết
-    df['Time'] = df.index 
-    
-    fig = px.line(df, x='Time', y=['pm25', 'temp', 'hum'], 
+    if 'time' in df.columns:
+        x_column = 'time' # Dùng cột 'time' (ví dụ: 10:30:05)
+    else:
+        df['Time_ID'] = df.index 
+        x_column = 'Time_ID' # Dự phòng nếu dữ liệu cũ chưa có time
+
+    fig = px.line(df, x=x_column, y=['pm25', 'temp', 'hum'], 
                   title='Diễn biến Nhiệt độ, Độ ẩm và Bụi mịn',
                   markers=True)
     st.plotly_chart(fig, use_container_width=True)
@@ -76,3 +80,4 @@ if not df.empty:
 else:
 
     st.info("Chưa có dữ liệu trên Firebase hoặc đang tải...")
+
